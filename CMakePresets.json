@@ -1,0 +1,42 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "cpu",
+      "displayName": "CPU only, no CUDA required",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/cpu",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release", "HVS_CUDA": "OFF" }
+    },
+    {
+      "name": "wsl",
+      "displayName": "Desktop (WSL2, CUDA 12.x)",
+      "generator": "Unix Makefiles",
+      "binaryDir": "$env{HOME}/hvs-build/wsl",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release", "HVS_CUDA": "ON" }
+    },
+    {
+      "name": "ghc",
+      "displayName": "GHC (CUDA 11.7, which needs g++-11 as host compiler)",
+      "generator": "Unix Makefiles",
+      "binaryDir": "/tmp/$env{USER}-hvs/build",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "HVS_CUDA": "ON",
+        "CMAKE_CXX_COMPILER": "g++-11",
+        "CMAKE_CUDA_COMPILER": "/usr/local/cuda-11.7/bin/nvcc",
+        "CMAKE_CUDA_HOST_COMPILER": "g++-11"
+      }
+    }
+  ],
+  "buildPresets": [
+    { "name": "cpu", "configurePreset": "cpu" },
+    { "name": "wsl", "configurePreset": "wsl" },
+    { "name": "ghc", "configurePreset": "ghc" }
+  ],
+  "testPresets": [
+    { "name": "cpu", "configurePreset": "cpu" },
+    { "name": "wsl", "configurePreset": "wsl" },
+    { "name": "ghc", "configurePreset": "ghc" }
+  ]
+}
